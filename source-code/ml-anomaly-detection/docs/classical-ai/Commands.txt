@@ -1,0 +1,89 @@
+Step 1. Install Anaconda IDE: https://www.anaconda.com/download/
+
+********
+Step 2. Create an environment and install the requirement.txt file 
+********
+conda create --name ml_anomaly_detection python=3.10.14
+conda env list
+conda activate ml_ai_anomaly_detection
+pip install -r requirements.txt
+
+otherwise refer below list to install : 
+---------------------
+
+pip install jupyter 
+pip install scikit-learn
+pip install matplotlib
+pip install torch 
+pip install ace_tools
+pip install pandas
+pip install numpy
+pip install tensorflow
+---------------------
+
+********
+Step 3. Run synthetic_data_generation python scripts (./data-model folder)
+********
+1-synthetic_data_generation.ipynb
+2-synthetic_data_generation_llm.ipynb
+3-regulatory_standards_sop_data.ipynb
+4-synthetic_data_cleaning_nist_data_calibration.ipynb
+
+Note: .csv data file generated in the following location 
+./data/synthetic_data
+./data/regulatory_standards_sop_data
+
+********
+Step 4. Run model script file "classical-ai_anomaly_detection.ipynb" and it will generate the following pickle files for deployment 
+********
+../pipeline/deploy/rf_classifier_model.pkl
+../pipeline/deploy/label_encoders.pkl
+../pipeline/deploy/scaler.pkl
+
+********
+Step 5. Deploy .pkl files using FAST APIs. 
+********
+../pipeline/app/app.py
+
+conda activate classical_ai_anomaly_detection
+
+command: uvicorn app:app --reload
+Exposed Endpoint: http://127.0.0.1:8000/predict
+
+********
+Step 6. Test the endpoint using curl command
+********
+Command: curl -X POST "http://127.0.0.1:8000/predict" \  -H "Content-Type: application/json" \ -d "{\"src_bytes\": 1050, \"dst_bytes\": 5450, \"count\": 15, \"serror_rate\": 0.12, \"protocol\": 1, \"service\": 2}"
+
+********
+Step 7. Access using UI interfaces  
+********
+../pipeline/app/ui_app.py
+
+command: python ui_app.py
+
+Note: Pass the following data to test the ai endpoint  "src_bytes": 1050,
+  "dst_bytes": 5450,
+  "count": 15,
+  "serror_rate": 0.12,
+  "protocol": 1,
+  "service": 2
+
+
+****************************************************************************************************************************************
+
+'''
+ICMP = 0
+TCP = 1
+UDP = 2
+******************
+dns = 0
+echo = 1
+echo_i = 2
+ftp = 3
+http = 4
+ntp_u = 5
+smtp = 6
+telnet = 7
+'''
+
